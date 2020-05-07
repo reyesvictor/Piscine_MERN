@@ -22,6 +22,19 @@ exports.register = async (req, res) => {
     }
   });
 
+  await User.findOne({ login }).exec(async (err, user) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (user) {
+      console.log("Login Already EXISTS");
+      return await res.status(400).json({
+        error: "Login is already taken",
+      });
+    }
+  });
+
   password = sha1(password);
   let newUser = await new User({ login, email, password });
 
@@ -32,7 +45,9 @@ exports.register = async (req, res) => {
         error: err,
       });
     } else {
-      return await res.status(200).render("welcome.html", { text: `Welcome ${login} !` });
+      return await res
+        .status(200)
+        .render("welcome.html", { text: `Welcome ${login} !` });
       // return await res.status(200).json({
       //   data: "Register succesful ! You can login.",
       // });
@@ -45,22 +60,25 @@ exports.login = async (req, res) => {
 
   const { email, password } = req.body;
 
-  User.findOne({ email }).exec(async (err, user) => {
+  await User.findOne({ email }).exec(async (err, user) => {
     if (err || !user) {
       return await res.status(400).json({
         error: "User does not exist",
       });
     }
+
     //is user and same password
     console.log("=====USER EXISTS=====");
     if (user.password === sha1(password)) {
-      return await res.status(200).render("welcome.html", { text: `Welcome ${user.login} !` });
+      return await res
+        .status(200)
+        .render("welcome.html", { text: `Welcome ${user.login} !` });
       // return await res.status(200).json({
       //   message: `Welcome ${user.login} !`
       // });
     } else {
       return await res.status(400).json({
-        message: `Bad authentification.`
+        message: `Bad authentification.`,
       });
     }
   });
