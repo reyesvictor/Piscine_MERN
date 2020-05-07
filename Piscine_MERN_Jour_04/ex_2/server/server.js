@@ -1,6 +1,7 @@
 const qs = require("querystring");
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const assert = require("assert");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -9,6 +10,7 @@ const authRoutes = require("./src/user/userRoute");
 const bodyParser = require("body-parser");
 // var MongoClient = require("mongodb").MongoClient;
 // const uri = "mongodb://127.0.0.1:27042/";
+app.use(cors()) 
 app.set("views", __dirname + "/src/views");
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
@@ -16,6 +18,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(authRoutes);
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 //voir les routes des requetes
 

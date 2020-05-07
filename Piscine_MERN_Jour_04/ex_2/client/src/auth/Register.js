@@ -32,13 +32,13 @@ const Register = () => {
     })
       .then(response => {
         console.log('REGISTER SUCCESS', response)
-        setValues({ ...values, name: '', email: '', password: '', confirmationPassword: '', buttonText: 'Submitted' })
+        setValues({ ...values, login: '', email: '', password: '', confirmationPassword: '', buttonText: 'Submitted' })
         toast.success(response.data.message)
       })
       .catch(error => {
         console.log('REGISTER ERROR', error.response.data)
         setValues({ ...values, buttonText: 'Submit' })
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.error)
       })
   };
 

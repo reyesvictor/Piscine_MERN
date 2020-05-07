@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
   console.log("REQ BODY ON REGISTER");
   // Check validity
   if (confirmationPassword !== password) {
-    return await res.status(400).json({ data: "Passwords do not match !" });
+    return await res.status(400).json({ error: "Passwords do not match !" });
   }
 
   await User.findOne({ email }).exec(async (err, user) => {
