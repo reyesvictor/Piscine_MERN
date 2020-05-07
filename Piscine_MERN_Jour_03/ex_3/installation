@@ -1,0 +1,6 @@
+ongo --port 27042
+use mern-pool
+db
+use students;
+db.students.find()
+show collections

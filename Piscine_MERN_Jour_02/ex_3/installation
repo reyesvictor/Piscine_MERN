@@ -1,0 +1,31 @@
+Créer une collection
+===============Validation Rules===================
+db.createCollection("students", 
+ {
+  validator:{
+    firstname: { $type: "string" } ,
+    lastname: { $type: "string" } ,
+    email: { $regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/ } ,
+    phone: { $regex: /^0[1-6]{1}(([0-9]{2}){4})|((\s[0-9]{2}){4})|((-[0-9]{2}){4})$/  },
+    validated: { $in: [ "in progress", "validated", "rejected" ]  },
+    admin: { $type: "bool"  }
+  },
+     validationAction: "error",
+      validationLevel: "strict"
+    }
+)
+===================================================
+
+db.getCollectionInfos();
+db.students.drop()
+db.students.find()
+
+====verification good====
+db.students.insert( { firstname: "Jean", lastname: "Lassalle", email: "JEAN@LASSALLE.FR", phone: "0623232323", validated: "validated", admin: true })
+====verification bad bool====
+db.students.insert( { firstname: "Jean", lastname: "Lassalle", email: "JEAN@LASSALLE.FR", phone: "0623232323", validated: "validated", admin: "Hello" })
+====verification bad string====
+db.students.insert( { firstname: 123, lastname: "Lassalle", email: "JEAN@LASSALLE.FR", phone: "0623232323", validated: "validated", admin: "Hello" })
+
+
+db.students.find()

@@ -1,0 +1,20 @@
+Créer une collection
+db.createCollection("student", 
+ {
+  validator: { $or:
+   [
+    { firstname: { $type: "string" } },
+    { lastname: { $type: "string" } },
+    { email: { $regex: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/ } },
+    { phone: { $regex: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ } },
+    { validated: { $in: [ "in progress", "validated", "rejected" ] } },
+    { phone: { $type: "bool" } }
+   ],
+   validationAction: "error",
+   validationLevel: "strict"
+       }
+    }
+)
+
+show collections
+db.getCollectionInfos();
