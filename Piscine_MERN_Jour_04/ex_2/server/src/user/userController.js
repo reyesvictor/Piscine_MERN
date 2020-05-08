@@ -47,7 +47,10 @@ exports.register = async (req, res) => {
     } else {
       return await res
         .status(200)
-        .render("welcome.html", { text: `Welcome ${login} !` });
+        .json({
+          message: "Succesfully registered",
+        });
+        // .render("welcome.html", { text: `Welcome ${login} !` });
       // return await res.status(200).json({
       //   data: "Register succesful ! You can login.",
       // });

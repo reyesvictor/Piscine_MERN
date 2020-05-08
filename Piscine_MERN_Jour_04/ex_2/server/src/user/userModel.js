@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const sha1 = require("sha1");
 
 const userSchema = new mongoose.Schema(
   {
