@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const sha1 = require("sha1");
 
 const userSchema = new mongoose.Schema(
   {
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    password: {
+    hash_password: {
       type: String,
       required: true,
     },
@@ -29,28 +30,29 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// userSchema
-//   .virtual("pwd")
-//   .set((pwd) => {
-//     this._password = pwd;
-//     this.password = this.encryptPwd(pwd);
-//   })
-//   .get(() => {
-//     return this._password;
-//   });
+userSchema
+  .virtual('password')
+  .set(function (password) {
+    this._password = password;
+    this.hash_password = this.encryptPassword(password);
+  })
+  .get(function() {
+    return this._password;
+  });
 
-// userSchema.methods = {
-//   authenticate: (text) => {
-//     return this.encryptPwd(text) === this.password;
-//   },
-//   encryptPwd: (pwd) => {
-//     if (!pwd) return "";
-//     try {
-//       return sha1(pwd);
-//     } catch (error) {
-//       return "";
-//     }
-//   },
-// };
+userSchema.methods = {
+  authenticate: function (text) {
+    return this.encryptPassword(text) === this.hash_password;
+  },
+  encryptPassword: function (password) {
+    if (!password) return "";
+    try {
+      return sha1(password);
+    } catch (error) {
+      console.log(error)
+      return "";
+    }
+  },
+};
 
 module.exports = mongoose.model("User", userSchema);

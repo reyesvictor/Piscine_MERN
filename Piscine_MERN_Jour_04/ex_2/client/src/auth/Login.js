@@ -4,6 +4,7 @@ import Layout from "../core/Layout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { authenticate } from './helpers'
 
 const Login = () => {
   //state and state hook
@@ -31,8 +32,10 @@ const Login = () => {
       .then(response => {
         console.log('LOGIN SUCCESS', response)
         //save response and token => cookie and localstorage
-        setValues({ ...values, email: '', password: '', buttonText: 'Submitted' })
-        toast.success(response.data.message)
+        authenticate(response, () => {
+          setValues({ ...values, email: '', password: '', buttonText: 'Submitted' })
+          toast.success(response.data.message)
+        })
       })
       .catch(error => {
         console.log('LOGIN ERROR', error.response.data)

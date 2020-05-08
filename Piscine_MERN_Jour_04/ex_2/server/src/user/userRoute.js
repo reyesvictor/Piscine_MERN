@@ -4,8 +4,7 @@ const router = express.Router();
 const { check } = require("express-validator");
 const { register } = require("./userController");
 const { login } = require("./userController");
-const { userRegisterValidator } = require("./userValidator");
-const { userLoginValidator } = require("./userValidator");
+const { userRegisterValidator, userLoginValidator } = require("./userValidator");
 const { runValidation } = require("../validation");
 
 router

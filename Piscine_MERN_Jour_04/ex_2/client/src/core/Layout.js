@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 
 const Layout = ({ children, match }) => {
   const isActive = path => {
-    if (match.path == path) {
+    if (match.path === path) {
       return { color: '#000000' };
     } else {
       return { color: '#ffffff' };

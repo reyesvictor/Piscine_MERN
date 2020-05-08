@@ -3,9 +3,11 @@ const express = require("express");
 const app = express();
 const cors = require('cors')
 const assert = require("assert");
+const path = require("path");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const dotenv = require("dotenv");
+const dotenv = require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+
 const authRoutes = require("./src/user/userRoute");
 const bodyParser = require("body-parser");
 // var MongoClient = require("mongodb").MongoClient;
@@ -24,8 +26,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-//voir les routes des requetes
 
 mongoose
   .connect("mongodb://127.0.0.1:27042/mern-pool", { useNewUrlParser: true,  useUnifiedTopology: true })
