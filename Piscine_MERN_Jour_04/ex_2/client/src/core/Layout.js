@@ -5,9 +5,9 @@ import { isAuth, logout } from "../auth/helpers";
 const Layout = ({ children, match, history }) => {
   const isActive = path => {
     if (match.path === path) {
-      return { color: '#000000' };
+      return { cursor: 'pointer', color: '#000000' };
     } else {
-      return { color: '#ffffff' };
+      return { cursor: 'pointer', color: '#ffffff' };
     }
   }
 
@@ -21,6 +21,9 @@ const Layout = ({ children, match, history }) => {
       {/* {!isAuth() && */}
       {isAuth() ?
         <Fragment>
+          <li className="nav-item">
+            <Link className="nav-link" style={isActive('/login')}>{isAuth().login}</Link>
+          </li>
           <li className="nav-item">
             <Link className="nav-link" style={isActive('/login')}
               onClick={() => {
