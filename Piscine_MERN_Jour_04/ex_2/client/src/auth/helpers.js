@@ -63,3 +63,11 @@ export const isAuth = () => {
     }
   }
 };
+
+
+//disconnect user
+export const logout = next => {
+  removeCookie('token')
+  removeLocalStorage('user')
+  next()
+}

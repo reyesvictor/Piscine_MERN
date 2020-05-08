@@ -4,7 +4,7 @@ import Layout from "../core/Layout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { authenticate } from './helpers'
+import { authenticate, isAuth } from './helpers'
 
 const Login = () => {
   //state and state hook
@@ -78,8 +78,10 @@ const Login = () => {
       {/* {JSON.stringify({ login, email, password, confirmationPassword })} */}
       <div className="row">
         <div className="mx-auto col-6">
+          {isAuth() ? <Redirect to='/'/> : null}
           <h1 className="p-5 text-center">Log In Page</h1>
-          {loginForm()}
+            {/* {JSON.stringify(isAuth())} */}
+            {loginForm()}
         </div>
       </div>
     </Layout>

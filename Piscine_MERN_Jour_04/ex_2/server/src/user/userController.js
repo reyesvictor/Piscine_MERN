@@ -1,5 +1,4 @@
 const User = require("./userModel");
-// const sha1 = require("sha1");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
@@ -19,24 +18,17 @@ exports.register = async (req, res) => {
       return;
     }
     if (user) {
-      let texterror = '';
-      if (user.login === login) {
-        texterror = 'Login is taken';
-      } else {
-        texterror = 'Email is taken';
-      }
       return await res.status(400).json({
-        error: texterror,
+        error: user.login === login ? 'Login is taken' : 'Email is taken',
       });
     }
   });
 
-  // password = sha1(password);
   let newUser = await new User({ login, email, password });
   console.log(newUser)
   await newUser.save(async (err, success) => {
     if (err) {
-      // console.log("Register ERROR", err);
+      console.log("===Register ERROR===", err);
       return await res.status(400).json({
         error: err,
       });
@@ -46,10 +38,6 @@ exports.register = async (req, res) => {
         .json({
           message: "Succesfully registered",
         });
-      // .render("welcome.html", { text: `Welcome ${login} !` });
-      // return await res.status(200).json({
-      //   data: "Register succesful ! You can login.",
-      // });
     }
   });
 };
@@ -74,15 +62,15 @@ exports.login = async (req, res) => {
     }
 
     //generate token
-    console.log('======JWT_SECRET=====', process.env.JWT_SECRET,process.env.CACA);
+    console.log('======JWT_SECRET=====', process.env.JWT_SECRET, process.env.CACA);
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    const { _id, name, email, type } = user
+    const { _id, login, email, type } = user
 
     return await res
       .status(200)
       .json({
         token,
-        user: { _id, name, email, type },
+        user: { _id, login, email, type },
         message: `Hey ${user.login}, welcome back !`,
       });
   });

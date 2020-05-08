@@ -4,6 +4,7 @@ import Layout from "../core/Layout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { isAuth } from "./helpers";
 
 const Register = () => {
   //state and state hook
@@ -94,6 +95,7 @@ const Register = () => {
       {/* {JSON.stringify({ login, email, password, confirmationPassword })} */}
       <div className="row">
         <div className="mx-auto col-6">
+          {isAuth() ? <Redirect to="/"/> : null}
           <h1 className="p-5 text-center">Register Page</h1>
           {registerForm()}
         </div>
