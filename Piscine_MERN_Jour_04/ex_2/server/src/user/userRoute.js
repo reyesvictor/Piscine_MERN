@@ -5,6 +5,7 @@ const { check } = require("express-validator");
 const { register } = require("./userController");
 const { login } = require("./userController");
 const { userRegisterValidator } = require("./userValidator");
+const { userLoginValidator } = require("./userValidator");
 const { runValidation } = require("../validation");
 
 router
@@ -16,5 +17,6 @@ router
   })
   .post("/register", userRegisterValidator, runValidation, register);
 
-router.post("/login", login);
+router.post("/login", userLoginValidator, runValidation, login);
+
 module.exports = router;

@@ -50,7 +50,7 @@ exports.register = async (req, res) => {
         .json({
           message: "Succesfully registered",
         });
-        // .render("welcome.html", { text: `Welcome ${login} !` });
+      // .render("welcome.html", { text: `Welcome ${login} !` });
       // return await res.status(200).json({
       //   data: "Register succesful ! You can login.",
       // });
@@ -75,14 +75,15 @@ exports.login = async (req, res) => {
     if (user.password === sha1(password)) {
       return await res
         .status(200)
-        .render("welcome.html", { text: `Welcome ${user.login} !` });
-      // return await res.status(200).json({
-      //   message: `Welcome ${user.login} !`
-      // });
+        .json({
+          message: `Hey ${user.login}, welcome back !`,
+        });
     } else {
-      return await res.status(400).json({
-        message: `Bad authentification.`,
-      });
+      return await res
+        .status(400)
+        .json({
+          error: `Bad authentification.`,
+        });
     }
   });
 };
