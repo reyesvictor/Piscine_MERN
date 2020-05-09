@@ -35,7 +35,7 @@ const Login = ({ history }) => {
         authenticate(response, () => {
           setValues({ ...values, email: '', password: '', buttonText: 'Submitted' })
           // toast.success(response.data.message)
-          isAuth() && isAuth().type === true ? history.push('/admin') : history.push('/:login');
+          isAuth() && isAuth().type === true ? history.push('/admin') : history.push(`/${isAuth().login}`);
         })
       })
       .catch(error => {

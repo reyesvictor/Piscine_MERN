@@ -4,29 +4,21 @@ var ObjectId = require('mongodb').ObjectID;
 
 const blogSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      trim: true,
-      unique: true,
-      required: true,
-      min: 5,
-      max: 20,
-      required: true,
-    },
     content: {
       type: String,
       trim: true,
       required: true,
     }, 
-    user_id: {
+    billet_id: {
       type: ObjectId,
       required: true,
     },
-    comments: {
-      type: Array
+    user_login: {
+      type: String,
+      required: true,
     }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = mongoose.model("Comment", blogSchema);

@@ -36,6 +36,9 @@
   "devDependencies": {
     "jscookie": "^1.1.0",
     "react-color": "^2.18.1",
-    "react-toastify": "^6.0.0-rc.2-1"
+    "react-redux": "^7.2.0",
+    "react-toastify": "^6.0.0-rc.2-1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   }
 }
