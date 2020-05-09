@@ -44,12 +44,3 @@ app.listen(process.env.PORT, process.env.HOSTNAME, () => {
   console.log(`Running on port ${process.env.PORT} - ${process.env.NODE_ENV}`);
 });
 
-// let {nextAvailable} = require('node-port-check');
-
-// nextAvailable(4242, '0.0.0.0').then((nextAvailablePort) => {
-
-//     console.log('Available port:', nextAvailablePort);
-
-//     process.exit(0);
-
-// });
