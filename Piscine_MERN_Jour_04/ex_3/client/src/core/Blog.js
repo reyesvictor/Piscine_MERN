@@ -1,6 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Layout from "./Layout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,10 +20,9 @@ const Blog = ({ match, location }) => {
     buttonText: "Submit"
   });
 
-  const { title, content, commentContent, password, user_id, login, buttonText } = values;
+  const { title, content, commentContent, user_id, login, buttonText } = values;
 
   const handleChange = title => event => {
-    // console.log(event.target);
     setValues({ ...values, [title]: event.target.value });
   };
 
@@ -59,7 +57,6 @@ const Blog = ({ match, location }) => {
     })
       .then(response => {
         toast.success(response.data.message);
-        window.location.reload(false);
       })
       .catch(error => toast.error(error.response.data.error))
   };
@@ -78,7 +75,6 @@ const Blog = ({ match, location }) => {
     })
       .then(response => {
         toast.success(response.data.message);
-        // window.location.reload(false);
       })
       .catch(error => toast.error(error.response.data.error))
   };
@@ -96,7 +92,6 @@ const Blog = ({ match, location }) => {
     })
       .then(response => {
         toast.success(response.data.message);
-        // window.location.reload(false);
       })
       .catch(error => toast.error(error.response.data.error))
   };
@@ -150,9 +145,6 @@ const Blog = ({ match, location }) => {
     </form>
   );
 
-  // Remarque : le tableau vide de dépendances [] indique
-  // que useEffect ne s’exécutera qu’une fois, un peu comme
-  // componentDidMount()
   React.useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/blog/${login}/`)
       .then(res => res.json())
@@ -161,15 +153,12 @@ const Blog = ({ match, location }) => {
           setIsLoaded(true);
           setItems(result.billets);
         },
-        // Remarque : il faut gérer les erreurs ici plutôt que dans
-        // un bloc catch() afin que nous n’avalions pas les exceptions
-        // dues à de véritables bugs dans les composants.
         (error) => {
           setIsLoaded(true);
           setError(error);
         }
       )
-  }, [])
+  })
 
 
   const billetCards = () => {
@@ -222,10 +211,6 @@ const Blog = ({ match, location }) => {
   return (
     <Layout>
       <ToastContainer />
-      {/* {JSON.stringify({ title, content, password, confirmationPassword })} */}
-      {/* <code>{JSON.stringify(match, null, 2)}</code> */}
-      {/* <code>{JSON.stringify(location, null, 2)}</code> */}
-      {/* <code>{JSON.stringify(isAuth()._id)}</code> */}
       <div className="row">
         <div className="mx-auto col-6">
           <div className="card mt-2">

@@ -20,6 +20,9 @@ const Blog = ({ match, location }) => {
     buttonText: "Submit"
   });
 
+  // state = {
+  //   items : setItems()
+  // }
   const { title, content, commentContent, password, user_id, login, buttonText } = values;
 
   const handleChange = title => event => {
@@ -27,25 +30,54 @@ const Blog = ({ match, location }) => {
   };
 
   const clickSubmit = (event) => {
-    // console.log(event);
     event.preventDefault();
-    setValues({ ...values, buttonText: 'Submitting...' })
-    axios({
+    fetch(`${process.env.REACT_APP_API}/blog/billetCreate`, {
       method: 'POST',
-      url: `${process.env.REACT_APP_API}/blog/billetCreate`,
-      data: { title, content, user_id, user_login:login }
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title, content, user_id, user_login: login
+      }),
     })
-      .then(response => {
-        console.log('REGISTER SUCCESS', response)
-        setValues({ ...values, title: '', content: '', buttonText: 'Submitted' })
-        toast.success(response.data.message)
-      })
-      .catch(error => {
-        console.log('REGISTER ERROR', error.response.data)
-        setValues({ ...values, buttonText: 'Submit' })
-        toast.error(error.response.data.error)
-      })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setIsLoaded(true);
+        setItems(result.billets);
+      },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
   };
+
+
+  // const clickSubmit = (event) => {
+  //   // console.log(event);
+  //   event.preventDefault();
+  //   setValues({ ...values, buttonText: 'Submitting...' })
+  //   fetch({
+  //     method: 'POST',
+  //     url: `${process.env.REACT_APP_API}/blog/billetCreate`,
+  //     data: { title, content, user_id, user_login: login }
+  //   })
+  //     .then(response => {
+  //       console.log('REGISTER SUCCESS', response)
+  //       setValues({ ...values, title: '', content: '', buttonText: 'Submitted' })
+  //       toast.success(response.data.message)
+  //       this.setState({
+  //         items: response.billets
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log('REGISTER ERROR', error.response.data)
+  //       setValues({ ...values, buttonText: 'Submit' })
+  //       toast.error(error.response.data.error)
+  //     })
+  // };
 
   const clickDelete = (end_url) => (event) => {
     console.log(end_url);
@@ -62,10 +94,6 @@ const Blog = ({ match, location }) => {
       .catch(error => toast.error(error.response.data.error))
   };
 
-
-
-
-
   const deleteComment = (user_login, content, _id, createdAt) => (event) => {
     console.log(content, _id);
     event.preventDefault();
@@ -80,9 +108,6 @@ const Blog = ({ match, location }) => {
       })
       .catch(error => toast.error(error.response.data.error))
   };
-
-
-
 
   const commentSubmit = (_id) => (event) => {
     console.log(_id, commentContent, isAuth()._id);
@@ -203,7 +228,7 @@ const Blog = ({ match, location }) => {
                     item.comments.map(comment => (
                       <li className="list-group-item">
                         {user_id !== item.user_id ? null : <button className="btn btn-warning mr-2" onClick={deleteComment(comment.user_login, comment.content, item._id, comment.createdAt)}>X</button>}
-                        <a href={'/' + comment.user_login + '/'}>{comment.user_login}</a> { ' said: ' + comment.content}
+                        <a href={'/' + comment.user_login + '/'}>{comment.user_login}</a> {' said: ' + comment.content}
                       </li>
                     ))
                     : null

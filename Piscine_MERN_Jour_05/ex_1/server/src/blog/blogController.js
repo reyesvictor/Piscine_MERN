@@ -6,21 +6,21 @@ const path = require("path");
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 var ObjectId = require('mongoose').Types.ObjectId;
 
-const saveBillet = (newBillet, res) => {
+const saveBillet = (newBillet, res, billets) => { 
   return new Promise((resolve, reject) => {
     newBillet.save((err, success) => {
       if (err) {
         console.log("===Create Billet ERROR===", err);
         resolve(res.status(400).json({ error: err, }));
       } else {
-        resolve(res.status(200).json({ message: "New Billet Created." }));
+        resolve(res.status(200).json({ message: "New Billet Created.", billets }));
       }
-      res.end();
     });
   })
 }
 
 exports.create = async (req, res) => {
+  console.log("VERIF BILLET DATA =========", req.body,req.params, req.query)
   let { title, content, user_id, user_login } = req.body;
   const search = async (title) => { return await Blog.findOne({ title }).then(blog => blog) };
   const result = await search(title);
@@ -32,10 +32,17 @@ exports.create = async (req, res) => {
     // let newBillet = await new Blog({ title, content, user_id });
     const createNew = async (billet) => { return await new Blog(billet) };
     const newBillet = await createNew({ title, content, user_id, user_login });
-    console.log('======New Blog() Billet=======', newBillet)
-    saveBillet(newBillet, res);
+    // console.log('======New Blog() Billet=======', newBillet)
+
+    // console.log('======Billets VERIF VERIF=======', billets)
+    await newBillet.save();
+    const searchBillets = async (user_id) => { return await Blog.find({ user_id: new ObjectId(user_id) }).then(billets => billets) };
+    const billets = await searchBillets(user_id);
+    res.status(200).json({ message: "New Billet Created.", billets:billets.reverse() });
+    // saveBillet(newBillet, res, billets.reverse());
   }
 };
+
 
 exports.read = async (req, res) => {
   console.log("VERIF COMMENTAIRES =========", req.body)

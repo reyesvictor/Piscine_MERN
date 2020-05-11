@@ -34,7 +34,7 @@ const Layout = ({ children, match, history }) => {
             <Link to={'/' + isAuth().login} className="nav-link" style={isActive(isAuth().login)}>{isAuth().login}</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" style={isActive('/login')}
+            <Link to="/login" className="nav-link" style={isActive('/login')}
               onClick={() => {
                 logout(() => {
                   history.push('/');

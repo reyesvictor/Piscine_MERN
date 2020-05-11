@@ -1,6 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Link, Redirect } from "react-router-dom";
 import Layout from "./Layout";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,9 +19,6 @@ const BlogDetails = ({ match, location }) => {
           setIsLoaded(true);
           setItems(result.billet);
         },
-        // Remarque : il faut gérer les erreurs ici plutôt que dans
-        // un bloc catch() afin que nous n’avalions pas les exceptions
-        // dues à de véritables bugs dans les composants.
         (error) => {
           setIsLoaded(true);
           setError(error);
@@ -31,8 +26,6 @@ const BlogDetails = ({ match, location }) => {
       )
   }, [])
 
-
-  //state and state hook
   const [values, setValues] = React.useState({
     title: item.title,
     content: item.content,
@@ -43,30 +36,8 @@ const BlogDetails = ({ match, location }) => {
 
   const { title, content, password, user_id, billet_id, buttonText } = values;
   const handleChange = title => event => {
-    // console.log(event.target);
     setValues({ ...values, [title]: event.target.value });
   };
-
-  // const clickSubmit = (event) => {
-  //   console.log(event.target.value);
-  //   event.preventDefault();
-  //   setValues({ ...values, buttonText: 'Submitting...' })
-  //   axios({
-  //     method: 'POST',
-  //     url: `${process.env.REACT_APP_API}/blog/billetCreate`,
-  //     data: { title, content, user_id }
-  //   })
-  //     .then(response => {
-  //       console.log('REGISTER SUCCESS', response)
-  //       setValues({ ...values, title: '', content: '', buttonText: 'Submitted' })
-  //       toast.success(response.data.message)
-  //     })
-  //     .catch(error => {
-  //       console.log('REGISTER ERROR', error.response.data)
-  //       setValues({ ...values, buttonText: 'Submit' })
-  //       toast.error(error.response.data.error)
-  //     })
-  // };
 
   const clickUpdate = (event) => {
     event.preventDefault();
@@ -77,7 +48,6 @@ const BlogDetails = ({ match, location }) => {
     })
       .then(response => {
         toast.success(response.data.message);
-        // window.location.reload(false);
       })
       .catch(error => toast.error(error.response.data.error))
   };
@@ -97,18 +67,9 @@ const BlogDetails = ({ match, location }) => {
     </>
   );
 
-  // Remarque : le tableau vide de dépendances [] indique
-  // que useEffect ne s’exécutera qu’une fois, un peu comme
-  // componentDidMount()
-
-
   return (
     <Layout>
       <ToastContainer />
-      {/* {JSON.stringify({ title, content, password, confirmationPassword })} */}
-      {/* <code>{JSON.stringify(match, null, 2)}</code> */}
-      {/* <code>{JSON.stringify(location, null, 2)}</code> */}
-      {/* <code>{JSON.stringify(isAuth()._id)}</code> */}
       <div className="row">
         <div className="mx-auto col-6">
           <div className="card mt-2">

@@ -22,10 +22,10 @@ const Layout = ({ children, match, history }) => {
       {isAuth() ?
         <Fragment>
           <li className="nav-item">
-            <Link className="nav-link" style={isActive('/login')}>{isAuth().login}</Link>
+            <Link to={'/' + isAuth().login} className="nav-link" style={isActive('/login')}>{isAuth().login}</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" style={isActive('/login')}
+            <Link  to='/login'  className="nav-link" style={isActive('/login')}
               onClick={() => {
                 logout(() => {
                   history.push('/');
