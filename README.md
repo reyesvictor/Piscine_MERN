@@ -1,6 +1,7 @@
 # Piscine_MERN
+Piscine intensive de une semaine, exercices journaliers pour acquérir les languages suivants.
 
-NOTIONS____\
+NOTIONS____
 * MongoDB
 * Node.js
 * React.js
