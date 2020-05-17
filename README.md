@@ -1,5 +1,5 @@
 # Piscine_MERN
-Piscine intensive de une semaine, exercices journaliers pour acquérir les languages suivants.
+Piscine intensive de une semaine, exercices journaliers pour aborder les languages suivants.
 
 NOTIONS____
 * MongoDB
